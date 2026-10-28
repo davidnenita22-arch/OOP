@@ -8,7 +8,7 @@ public class Main {
 
         first.log(LogLevel.TRACE, "This should be hidden");
         first.log(LogLevel.INFO, "Program started");
-        second.log(LogLevel.WARN, "An operation failed");
+        second.log(LogLevel.WARN, "Input is empty");
         second.log(LogLevel.ERROR, "Cannot continue");
 
         Logger.setLevel(LogLevel.ERROR);

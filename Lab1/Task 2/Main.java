@@ -3,15 +3,12 @@ public class Main {
         ParenthesesValidator validator = new ParenthesesValidator();
 
         String[] inputs = {"()", ")((()))", "(", "(())((()())())", ")(", "(()", "())",
-                "()()", "", null, "a()"};
+                "()()"};
 
-        boolean[] expected = {true, false, false, true, false, false, false, true,
-                true, false, false};
+        for (String input : inputs) {
+            boolean result = validator.isValid(input);
 
-        for (int i = 0; i < inputs.length; i++) {
-            boolean result = validator.isValid(inputs[i]);
-
-            System.out.println("Input: \"" + inputs[i] + "\"" + " Result: " + result);
+            System.out.println("Input: \"" + input + "\" Result: " + result);
         }
     }
 }
