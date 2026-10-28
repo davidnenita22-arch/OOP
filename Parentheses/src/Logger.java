@@ -27,6 +27,7 @@ public class Logger {
         String time = LocalTime.now().format(
                 DateTimeFormatter.ofPattern("HH:mm:ss")
         );
+        String randomText = format.contains("%r") ? msgLevel.randomMessage() : "";
 
         StringBuilder output = new StringBuilder();
 
@@ -39,6 +40,7 @@ public class Logger {
                     case 'm' -> message;
                     case 'n' -> name;
                     case 'l' -> msgLevel.name();
+                    case 'r' -> randomText;
                     default -> null;
                 };
 
@@ -52,4 +54,5 @@ public class Logger {
         }
         System.out.println(output);
     }
+
 }
