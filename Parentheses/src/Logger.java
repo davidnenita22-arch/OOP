@@ -54,5 +54,4 @@ public class Logger {
         }
         System.out.println(output);
     }
-
 }
