@@ -1,57 +1,37 @@
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
 public class Logger {
     private final String name;
+    private final Formatter formatter;
+    private final ConsoleSink sink;
 
     private static LogLevel level = LogLevel.INFO;
-    private static String format = "[%t] [%l] %n: %m";
 
+    //COMPOSITION: the logger builds its own parts
     public Logger(String name) {
         this.name = name;
+        this.formatter = new Formatter("[%l] %n: %m | %r");
+        this.sink = new ConsoleSink();
+    }
+    //AGGREGATION: the parts are created outside and handed in
+    public Logger(String name, Formatter formatter, ConsoleSink sink) {
+        this.name = name;
+        this.formatter = formatter;
+        this.sink = sink;
     }
 
     public static void setLevel(LogLevel newLevel) {
         level = newLevel;
     }
 
-    public static void setFormat(String newFormat) {
-        format = newFormat;
-    }
-
     public void log(LogLevel msgLevel, String message) {
         if (msgLevel.ordinal() < level.ordinal()) {
             return;
         }
-
-        String time = LocalTime.now().format(
-                DateTimeFormatter.ofPattern("HH:mm:ss")
-        );
-        String randomText = format.contains("%r") ? msgLevel.randomMessage() : "";
-
-        StringBuilder output = new StringBuilder();
-
-        for (int i = 0; i < format.length(); i++) {
-            char current = format.charAt(i);
-
-            if (current == '%' && i + 1 < format.length()) {
-                String replacement = switch (format.charAt(i + 1)) {
-                    case 't' -> time;
-                    case 'm' -> message;
-                    case 'n' -> name;
-                    case 'l' -> msgLevel.name();
-                    case 'r' -> randomText;
-                    default -> null;
-                };
-
-                if (replacement != null) {
-                    output.append(replacement);
-                    i++;
-                    continue;
-                }
-            }
-            output.append(current);
-        }
-        System.out.println(output);
+        String line = formatter.format(msgLevel, name, message);
+        sink.write(line);
     }
+
+        public void trace(String message) { log(LogLevel.TRACE, message); }
+        public void info(String message) { log(LogLevel.INFO, message); }
+        public void warn(String message) { log(LogLevel.WARN, message); }
+        public void error(String message) { log(LogLevel.ERROR, message); }
 }
