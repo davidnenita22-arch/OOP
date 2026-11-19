@@ -1,20 +1,20 @@
-import date.time.LocalTime;
-import date.time.format.DateTimeFormatter;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Formatter {
     private final String format;
 
-    public Formatter(String format){
+    public Formatter(String format) {
         this.format = format;
     }
 
-    public String(LogLevele.level, String name, String message) {
+    public String format(LogLevel level, String name, String message) {
         String time = LocalTime.now().format(
                 DateTimeFormatter.ofPattern("HH:mm:ss")
         );
-        String randomText = format.contains("r") ? level.randomMessage() : "" ;
+        String randomText = format.contains("%r") ? level.randomMessage() : "";
 
-        StringBuilder output = new StringBuilder;
+        StringBuilder output = new StringBuilder();
 
         for (int i = 0; i < format.length(); i++) {
             char current = format.charAt(i);
@@ -24,10 +24,18 @@ public class Formatter {
                     case 't' -> time;
                     case 'm' -> message;
                     case 'n' -> name;
-                    case 'l' -> msgLevel.name();
+                    case 'l' -> level.name();
                     case 'r' -> randomText;
                     default -> null;
                 };
-         return output.toString();
+                if (replacement != null) {
+                    output.append(replacement);
+                    i++;           // skip the placeholder letter
+                    continue;
+                }
+            }
+            output.append(current);
+        }
+        return output.toString();
     }
 }
