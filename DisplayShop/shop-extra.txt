@@ -1,0 +1,12 @@
+# My own tests: things the other two files do not check.
+
+MANAGER Eve
+DISPLAY Test-Mon 1920 1080 0
+DISPLAY Test-Mon2 -1920 1080 92
+DISPLAY Eizo-CS2740 3840 2160 163.0
+DISPLAY Eizo-CS2740 3840 2160 163.0
+ASSIGN Eizo-CS2740 Eve extra
+MANAGER Frank
+ASSIGN Eizo-CS2740 Eve
+BUY Eizo-CS2740 Frank
+ASSIST Eve
