@@ -41,7 +41,7 @@ public class ParenthesesValidator {
     }
 
     private boolean finish(String input, boolean valid, String reason) {
-        logger.log(LogLevel.INFO, "Validation result for \"" + input + "\": " + valid);
+        logger.info( "Validation result for \"" + input + "\": " + valid);
 
         if (!valid) {
             logger.log(LogLevel.ERROR, "Invalid input \"" + input + "\": " + reason);
